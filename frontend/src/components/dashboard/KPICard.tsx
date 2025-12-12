@@ -89,7 +89,7 @@ export const KPICard: React.FC<KPICardProps> = ({
         <Typography variant="body2" color="text.secondary" gutterBottom>
           {title}
         </Typography>
-        <Typography variant="h4" component="div" fontWeight="bold">
+        <Typography variant="h5" component="div" fontWeight="bold">
           {value}
         </Typography>
       </Box>

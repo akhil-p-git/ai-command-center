@@ -79,7 +79,7 @@ const OverviewPage: React.FC = () => {
             <Skeleton variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
           ) : (
             <KPICard
-              title="Total Conversations"
+              title="Conversations"
               value={metrics?.totalConversations?.toLocaleString() || '0'}
               icon={<ChatIcon />}
               color="#1976d2"
