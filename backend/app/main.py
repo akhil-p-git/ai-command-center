@@ -56,5 +56,17 @@ async def health_check():
     }
 
 
+# Seed endpoint (for demo purposes)
+@app.post("/api/v1/admin/seed", tags=["admin"])
+async def seed_demo_data():
+    """Seed the database with demo data for demonstration purposes."""
+    from app.scripts.seed_demo_data import seed_demo_data as run_seed
+    try:
+        run_seed()
+        return {"status": "success", "message": "Demo data seeded successfully"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 # Include API router
 app.include_router(api_router, prefix="/api/v1")

@@ -18,15 +18,13 @@ export const useMockData = (useMock: boolean = true) => {
       // Mock KPI Metrics
       setMetrics({
         totalConversations: 1248,
+        totalRequests: 5420,
         successRate: 94.2,
         avgLatencyMs: 320,
-        activeAgents: 8,
-        trends: {
-          conversations: { value: '12%', direction: 'up' },
-          successRate: { value: '2.1%', direction: 'up' },
-          latency: { value: '5%', direction: 'down' }, // down is good for latency
-          activeAgents: { value: '0', direction: 'neutral' }
-        }
+        errorRate: 2.1,
+        tokensUsed: 125000,
+        estimatedCostUsd: 1.25,
+        activeAgents: 3
       });
 
       // Mock Charts Data

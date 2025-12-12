@@ -1,16 +1,27 @@
 import { apiClient } from './client';
 
+// Matches backend schema (snake_case from API)
+export interface OverviewMetricsResponse {
+  total_conversations: number;
+  total_requests: number;
+  success_rate: number;
+  avg_latency_ms: number;
+  error_rate: number;
+  tokens_used: number;
+  estimated_cost_usd: number;
+  active_agents: number;
+}
+
+// Frontend-friendly version (camelCase)
 export interface OverviewMetrics {
   totalConversations: number;
+  totalRequests: number;
   successRate: number;
   avgLatencyMs: number;
+  errorRate: number;
+  tokensUsed: number;
+  estimatedCostUsd: number;
   activeAgents: number;
-  trends: {
-    conversations: { value: string; direction: 'up' | 'down' | 'neutral' };
-    successRate: { value: string; direction: 'up' | 'down' | 'neutral' };
-    latency: { value: string; direction: 'up' | 'down' | 'neutral' };
-    activeAgents: { value: string; direction: 'up' | 'down' | 'neutral' };
-  };
 }
 
 export interface TimeseriesPoint {
@@ -24,9 +35,22 @@ export interface TimeseriesResponse {
   data: TimeseriesPoint[];
 }
 
+// Transform snake_case response to camelCase
+const transformMetrics = (data: OverviewMetricsResponse): OverviewMetrics => ({
+  totalConversations: data.total_conversations,
+  totalRequests: data.total_requests,
+  successRate: data.success_rate,
+  avgLatencyMs: data.avg_latency_ms,
+  errorRate: data.error_rate,
+  tokensUsed: data.tokens_used,
+  estimatedCostUsd: data.estimated_cost_usd,
+  activeAgents: data.active_agents,
+});
+
 export const metricsApi = {
-  getOverview: () => apiClient.get<OverviewMetrics>('/metrics/overview'),
-  
+  getOverview: () => apiClient.get<OverviewMetricsResponse>('/metrics/overview')
+    .then(res => ({ ...res, data: transformMetrics(res.data) })),
+
   getTimeseries: (metric: string, period: string) =>
     apiClient.get<TimeseriesResponse>(`/metrics/timeseries?metric=${metric}&period=${period}`)
 };

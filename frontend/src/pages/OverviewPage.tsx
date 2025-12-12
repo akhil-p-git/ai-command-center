@@ -1,35 +1,47 @@
 import React from 'react';
-import { 
-  Box, 
-  Typography, 
-  Container, 
-  Grid, 
+import {
+  Box,
+  Typography,
+  Container,
+  Grid,
   Skeleton,
   Button,
   Alert
 } from '@mui/material';
-import { 
-  Chat as ChatIcon, 
-  CheckCircle as SuccessIcon, 
-  Speed as LatencyIcon, 
+import {
+  Chat as ChatIcon,
+  CheckCircle as SuccessIcon,
+  Speed as LatencyIcon,
   SmartToy as AgentIcon,
-  Refresh as RefreshIcon
+  Refresh as RefreshIcon,
+  AttachMoney as CostIcon,
+  Error as ErrorIcon,
+  Token as TokenIcon
 } from '@mui/icons-material';
 
 import { KPICard } from '../components/dashboard/KPICard';
 import { MetricsChart } from '../components/dashboard/MetricsChart';
-import { ActivityFeed } from '../components/dashboard/ActivityFeed';
-import { useMockData } from '../hooks/useMockData';
-// In a real app, we would switch between real hooks and mock hooks based on config
-// import { useOverviewMetrics, useTimeseries } from '../hooks/useMetrics';
+import { useOverviewMetrics, useTimeseries } from '../hooks/useMetrics';
 
 const OverviewPage: React.FC = () => {
-  // Using mock data for development as requested
-  const { metrics, requestsData, errorsData, activities, loading } = useMockData(true);
-  
-  // Placeholder for error state handling
-  const error = null; 
-  const refetch = () => window.location.reload(); // Simple reload for mock
+  // Real API data
+  const { data: metrics, isLoading: metricsLoading, error: metricsError, refetch } = useOverviewMetrics();
+  const { data: requestsTimeseries, isLoading: requestsLoading } = useTimeseries('requests', '24h');
+  const { data: errorsTimeseries, isLoading: errorsLoading } = useTimeseries('errors', '24h');
+
+  const loading = metricsLoading || requestsLoading || errorsLoading;
+  const error = metricsError;
+
+  // Transform timeseries data for charts
+  const requestsData = requestsTimeseries?.data?.map(p => ({
+    timestamp: new Date(p.timestamp).toLocaleTimeString([], { hour: 'numeric', hour12: true }),
+    value: p.value
+  })) || [];
+
+  const errorsData = errorsTimeseries?.data?.map(p => ({
+    timestamp: new Date(p.timestamp).toLocaleTimeString([], { hour: 'numeric', hour12: true }),
+    value: p.value
+  })) || [];
 
   if (error) {
     return (
@@ -68,9 +80,7 @@ const OverviewPage: React.FC = () => {
           ) : (
             <KPICard
               title="Total Conversations"
-              value={metrics?.totalConversations.toLocaleString() || '0'}
-              trend={metrics?.trends.conversations.direction}
-              trendValue={metrics?.trends.conversations.value}
+              value={metrics?.totalConversations?.toLocaleString() || '0'}
               icon={<ChatIcon />}
               color="#1976d2"
             />
@@ -84,9 +94,7 @@ const OverviewPage: React.FC = () => {
           ) : (
             <KPICard
               title="Success Rate"
-              value={`${metrics?.successRate}%` || '0%'}
-              trend={metrics?.trends.successRate.direction}
-              trendValue={metrics?.trends.successRate.value}
+              value={`${metrics?.successRate?.toFixed(1) || 0}%`}
               icon={<SuccessIcon />}
               color="#2e7d32"
             />
@@ -100,9 +108,7 @@ const OverviewPage: React.FC = () => {
           ) : (
             <KPICard
               title="Avg Latency"
-              value={`${metrics?.avgLatencyMs}ms` || '0ms'}
-              trend={metrics?.trends.latency.direction}
-              trendValue={metrics?.trends.latency.value}
+              value={`${metrics?.avgLatencyMs?.toFixed(0) || 0}ms`}
               icon={<LatencyIcon />}
               color="#ed6c02"
             />
@@ -116,9 +122,7 @@ const OverviewPage: React.FC = () => {
           ) : (
             <KPICard
               title="Active Agents"
-              value={metrics?.activeAgents || '0'}
-              trend={metrics?.trends.activeAgents.direction}
-              trendValue={metrics?.trends.activeAgents.value}
+              value={String(metrics?.activeAgents || 0)}
               icon={<AgentIcon />}
               color="#9c27b0"
             />
@@ -154,50 +158,55 @@ const OverviewPage: React.FC = () => {
         </Grid>
       </Grid>
 
-      {/* Row 3: Activity Feed */}
+      {/* Row 3: Additional Metrics */}
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           {loading ? (
-            <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
           ) : (
-            <ActivityFeed activities={activities} />
+            <KPICard
+              title="Total Requests"
+              value={metrics?.totalRequests?.toLocaleString() || '0'}
+              icon={<ChatIcon />}
+              color="#0288d1"
+            />
           )}
         </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          {/* Quick Chat / System Status Placeholder */}
-          <Box 
-            sx={{ 
-              height: '100%', 
-              minHeight: 400,
-              bgcolor: 'background.paper', 
-              borderRadius: 1,
-              p: 2,
-              border: 1,
-              borderColor: 'divider',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <Typography variant="h6" gutterBottom color="text.secondary">
-              System Status
-            </Typography>
-            <Typography variant="body2" color="success.main" fontWeight="bold">
-              All Systems Operational
-            </Typography>
-            <Box sx={{ mt: 2, textAlign: 'center' }}>
-              <Typography variant="caption" display="block" color="text.secondary">
-                Vector DB: Connected
-              </Typography>
-              <Typography variant="caption" display="block" color="text.secondary">
-                API Gateway: Online
-              </Typography>
-              <Typography variant="caption" display="block" color="text.secondary">
-                Agent Runner: Idle
-              </Typography>
-            </Box>
-          </Box>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          {loading ? (
+            <Skeleton variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
+          ) : (
+            <KPICard
+              title="Error Rate"
+              value={`${metrics?.errorRate?.toFixed(1) || 0}%`}
+              icon={<ErrorIcon />}
+              color="#d32f2f"
+            />
+          )}
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          {loading ? (
+            <Skeleton variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
+          ) : (
+            <KPICard
+              title="Tokens Used"
+              value={metrics?.tokensUsed?.toLocaleString() || '0'}
+              icon={<TokenIcon />}
+              color="#7b1fa2"
+            />
+          )}
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          {loading ? (
+            <Skeleton variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
+          ) : (
+            <KPICard
+              title="Est. Cost"
+              value={`$${metrics?.estimatedCostUsd?.toFixed(4) || '0.00'}`}
+              icon={<CostIcon />}
+              color="#388e3c"
+            />
+          )}
         </Grid>
       </Grid>
     </Container>
