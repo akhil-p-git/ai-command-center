@@ -3,7 +3,7 @@ import {
   Box, 
   Paper, 
   Typography, 
-  Grid2 as Grid,
+  Grid,
   useTheme
 } from '@mui/material';
 import { 

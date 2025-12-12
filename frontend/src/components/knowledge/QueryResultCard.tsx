@@ -54,7 +54,7 @@ export const QueryResultCard: React.FC<QueryResultCardProps> = ({ result, rank }
             label={`${scorePercent}% Match`} 
             size="small" 
             color={scoreColor} 
-            variant="soft" // Using soft variant if available, otherwise fallback
+            variant="outlined" // Using soft variant if available, otherwise fallback
             sx={{ fontWeight: 'bold' }}
           />
         </Box>

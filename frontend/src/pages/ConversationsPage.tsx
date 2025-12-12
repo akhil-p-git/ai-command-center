@@ -4,7 +4,7 @@ import {
   Container, 
   Typography, 
   Paper,
-  Grid2 as Grid,
+  Grid,
   useMediaQuery,
   useTheme
 } from '@mui/material';

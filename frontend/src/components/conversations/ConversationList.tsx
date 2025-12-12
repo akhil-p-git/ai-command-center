@@ -130,7 +130,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
                     label={row.status} 
                     size="small" 
                     color={getStatusColor(row.status) as any} 
-                    variant="soft" // Note: "soft" variant might need custom theme or newer MUI, falling back to filled/outlined defaults is fine
+                    variant="outlined" // Note: "soft" variant might need custom theme or newer MUI, falling back to filled/outlined defaults is fine
                   />
                 </TableCell>
                 <TableCell align="right">

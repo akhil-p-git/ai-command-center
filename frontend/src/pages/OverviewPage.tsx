@@ -3,7 +3,7 @@ import {
   Box, 
   Typography, 
   Container, 
-  Grid2 as Grid, 
+  Grid, 
   Skeleton,
   Button,
   Alert

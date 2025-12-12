@@ -3,7 +3,7 @@ import {
   Container, 
   Typography, 
   Box, 
-  Grid2 as Grid 
+  Grid 
 } from '@mui/material';
 import { ApiKeySection } from '../components/settings/ApiKeySection';
 import { ModelSection } from '../components/settings/ModelSection';

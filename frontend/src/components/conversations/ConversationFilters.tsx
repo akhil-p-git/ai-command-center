@@ -9,7 +9,7 @@ import {
   Button, 
   Box
 } from '@mui/material';
-import { ConversationFilters as Filters } from '../api/conversations';
+import { ConversationFilters as Filters } from '../../api/conversations';
 
 // Extend the API filters with UI-specific ones if needed
 interface ConversationFiltersProps {

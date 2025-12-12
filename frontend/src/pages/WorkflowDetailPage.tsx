@@ -5,7 +5,7 @@ import {
   Box, 
   Button, 
   IconButton,
-  Grid2 as Grid,
+  Grid,
   Skeleton
 } from '@mui/material';
 import { ArrowBack, Refresh, OpenInNew } from '@mui/icons-material';

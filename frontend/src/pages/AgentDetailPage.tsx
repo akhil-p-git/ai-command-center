@@ -5,7 +5,7 @@ import {
   Box, 
   Button, 
   IconButton,
-  Grid2 as Grid,
+  Grid,
   Paper,
   Tabs,
   Tab,

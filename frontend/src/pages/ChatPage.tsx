@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Grid2 as Grid } from '@mui/material';
+import { Box, Paper, Grid } from '@mui/material';
 import { ChatPanel } from '../components/chat/ChatPanel';
 import { AgentStepsTimeline } from '../components/chat/AgentStepsTimeline';
 import { useChat } from '../hooks/useChat';

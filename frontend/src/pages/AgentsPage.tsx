@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   Container, 
   Typography, 
-  Grid2 as Grid, 
+  Grid, 
   Box,
   Skeleton
 } from '@mui/material';

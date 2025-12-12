@@ -10,8 +10,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  CartesianGrid,
-  TooltipProps
+  CartesianGrid
 } from 'recharts';
 import { Card, CardContent, Typography, Box, useTheme } from '@mui/material';
 
@@ -22,7 +21,7 @@ interface MetricsChartProps {
   type?: 'line' | 'area' | 'bar';
 }
 
-const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <Card sx={{ p: 1, minWidth: 150 }}>

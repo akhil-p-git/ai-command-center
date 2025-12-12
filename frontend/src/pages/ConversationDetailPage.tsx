@@ -4,7 +4,7 @@ import {
   Container, 
   Typography, 
   Button,
-  Grid2 as Grid,
+  Grid,
   Chip,
   IconButton,
   Skeleton

@@ -4,7 +4,7 @@ import {
   Typography, 
   Box, 
   Button,
-  Grid2 as Grid
+  Grid
 } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';

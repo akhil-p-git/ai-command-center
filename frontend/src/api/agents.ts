@@ -1,6 +1,9 @@
 import { apiClient } from './client';
 import { Agent, AgentRun } from '../types';
 
+// Re-export types for consumers
+export type { Agent, AgentRun } from '../types';
+
 export interface AgentListResponse {
   items: Agent[];
   total: number;
