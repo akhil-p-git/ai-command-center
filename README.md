@@ -1,6 +1,10 @@
 # AI Command Center
 
-An admin dashboard for monitoring and managing AI agents, workflows, and conversations. Built with FastAPI, React, LangGraph, and integrates with n8n for workflow automation.
+> Mission-control dashboard for AI agents — monitor conversations, manage agent graphs, inspect workflow runs, and test queries against your vector store. FastAPI + React + LangGraph + n8n.
+
+**Why I built it:** Once you're running more than 2 or 3 AI agents in production, debugging "why did that conversation go off the rails?" gets painful fast. Logs are scattered, vector store queries are opaque, and you have no way to replay an agent's reasoning step-by-step. AI Command Center pulls all of it — conversations, agent graphs, n8n workflows, knowledge bases — into one operational pane.
+
+> 📸 _Dashboard, agent graph, and live chat screenshots coming soon._
 
 ## Features
 
@@ -215,4 +219,8 @@ When running locally, access the interactive API docs at:
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE)
+
+## Author
+
+Built by [Akhil Pinnani](https://github.com/akhil-p-git) · [akhil-p.dev](https://akhil-p.dev)
